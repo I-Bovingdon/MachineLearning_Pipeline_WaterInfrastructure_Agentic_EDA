@@ -65,11 +65,25 @@ Definition of operational objectives, infrastructure challenges and predictive m
 Main challenges identified during analysis:
 
 - Imbalanced target classes
+
+<img width="693" height="391" alt="image" src="https://github.com/user-attachments/assets/95770324-1a1f-4144-af23-fcdf1e9eec0c" />
+
 - Missing values represented as zeros
+
+<img width="1033" height="691" alt="image" src="https://github.com/user-attachments/assets/6842c0a9-dc95-4ba9-b8e1-fff52efbe2f8" />
+
 - High-cardinality categorical variables
-- Redundant operational features
+
+<img width="806" height="935" alt="image" src="https://github.com/user-attachments/assets/7cbf5c05-e05d-481d-8a90-bd1ee31cb45d" />
+
 - Strong geographical patterns
+
+<img width="1034" height="489" alt="image" src="https://github.com/user-attachments/assets/b319fc1c-0a9b-4d60-ab7b-4d0970c60f29" />
+
 - Sparse maintenance information
+
+<img width="2137" height="2898" alt="fig_cat_stacked" src="https://github.com/user-attachments/assets/5de7e8f6-0512-4a96-81b6-df4bd429dc6c" />
+ 
 
 ---
 
