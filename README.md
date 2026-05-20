@@ -1,7 +1,4 @@
-# ML_Pipeline_WaterInfrastructure
-Machine Learning Pipeline for Water Infrastructure Prediction
-
-# Predictive Maintenance for Water Infrastructure
+# Machine Learning Pipeline for Water Infrastructure Prediction
 
 ## Project Overview
 
