@@ -126,6 +126,10 @@ Multiple machine learning approaches were evaluated and compared:
 | Stacking Ensemble | 0.8114 | Best validation accuracy |
 | Final Ensemble Solution | **0.8230** | Best leaderboard score |
 
+
+<img width="1661" height="580" alt="fig_threshold_tuning" src="https://github.com/user-attachments/assets/ec253f92-a748-4d85-992a-cef04149b2af" />
+
+
 ---
 
 # Key Business Insights
