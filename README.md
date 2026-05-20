@@ -1,4 +1,4 @@
-# Machine Learning Pipeline for Water Infrastructure Prediction
+# Machine Learning Pipeline for Water Infrastructure Prediction and agentic Exploration Data Analysis using AI
 
 ## Project Overview
 
