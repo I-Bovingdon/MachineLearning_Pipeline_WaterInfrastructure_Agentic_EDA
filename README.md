@@ -1,4 +1,133 @@
-# Machine Learning Pipeline for Water Infrastructure Prediction and agentic Exploration Data Analysis using AI
+# Machine Learning Pipeline for Water Infrastructure Prediction and Agentic Exploratory Data Analysis using AI
+
+---
+
+## Project Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        DATA SOURCES                                     │
+│          DrivenData — Pump It Up: Data Mining the Water Table           │
+│     train_features.csv · train_labels.csv · test_features.csv          │
+└────────────────────────────┬────────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                  EXPLORATORY DATA ANALYSIS (EDA)                        │
+│                                                                         │
+│   ┌─────────────────┐   ┌──────────────────┐   ┌──────────────────┐   │
+│   │ Class imbalance │   │ Missing values   │   │ Geographic       │   │
+│   │ analysis        │   │ & zero-masking   │   │ distribution     │   │
+│   └─────────────────┘   └──────────────────┘   └──────────────────┘   │
+│   ┌─────────────────┐   ┌──────────────────┐                          │
+│   │ High-cardinality│   │ Categorical vs   │                          │
+│   │ variables       │   │ target patterns  │                          │
+│   └─────────────────┘   └──────────────────┘                          │
+│                                                                         │
+│   Automated report: Sweetviz HTML · Agentic EDA: LangGraph + Claude   │
+└────────────────────────────┬────────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     FEATURE ENGINEERING                                 │
+│                                                                         │
+│  pump_age · log_population · log_amount_tsh · region_fail_rate         │
+│  qty_pay_combo · has_scheme_mgmt · construction_decade                 │
+│  Top-50 cardinality reduction · Train-only imputation medians          │
+└────────────────────────────┬────────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        MODELLING                                        │
+│                                                                         │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                 │
+│  │ Random       │  │ Extra Trees  │  │ Gradient     │                 │
+│  │ Forest       │  │              │  │ Boosting     │                 │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘                 │
+│         └─────────────────┼─────────────────┘                         │
+│                           │ Stacking Ensemble                          │
+│                           ▼                                            │
+│              ┌────────────────────────┐                                │
+│              │  LogisticRegression    │                                │
+│              │  Meta-learner (OOF)    │                                │
+│              └────────────────────────┘                                │
+│                                                                         │
+│  Minority class strategies: threshold tuning · two-stage model        │
+│  cost-sensitive learning · weighted voting ensemble                    │
+└────────────────────────────┬────────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     EVALUATION & OUTPUT                                 │
+│                                                                         │
+│   Accuracy · Macro-F1 · Recall(functional needs repair)                │
+│   submission_*.csv  →  DrivenData leaderboard: 0.8230                 │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Repository Structure
+
+```
+MachineLearning_Pipeline_WaterInfrastructure_Agentic_EDA/
+│
+├── pump_it_up.ipynb              # Main notebook — full ML pipeline
+│
+├── train_test_data/              # Competition data (not tracked by Git)
+│   ├── train_features.csv
+│   ├── train_labels.csv
+│   ├── test_features.csv
+│   └── submission_format.csv
+│
+├── submissions/                  # Generated prediction files
+│   ├── submission_modelo_base.csv
+│   ├── submission_pump_it_up.csv
+│   ├── submission_stacking.csv
+│   ├── submission_threshold.csv
+│   ├── submission_dos_etapas.csv
+│   ├── submission_cost_sensitive.csv
+│   └── submission_ensemble_votacion.csv
+│
+├── images/                       # Figures generated by the notebook
+│   ├── fig_geo.png
+│   ├── fig_target_distribution.png
+│   ├── fig_feature_importance_interp.png
+│   ├── fig_stacking_comparison.png
+│   ├── fig_threshold_tuning.png
+│   └── ...
+│
+├── .env                          # API key — never committed to Git
+├── .gitignore                    # Excludes .env, data, outputs
+└── README.md
+```
+
+> **Note:** `train_test_data/` and `.env` must be added to `.gitignore` and are not included in this repository.
+
+---
+
+## Recommended `.gitignore`
+
+```gitignore
+# Environment variables — never commit API keys
+.env
+
+# Competition data
+train_test_data/
+
+# Notebook outputs and checkpoints
+.ipynb_checkpoints/
+__pycache__/
+
+# Generated HTML reports
+eda_report_*.html
+
+# OS files
+.DS_Store
+Thumbs.db
+```
+
+---
 
 ## Project Overview
 
@@ -10,7 +139,7 @@ The project simulates a real-world predictive maintenance scenario commonly foun
 
 ---
 
-# Business Problem
+## Business Problem
 
 Thousands of water pumps across Tanzania operate under limited maintenance resources and difficult geographical conditions.
 
@@ -25,7 +154,7 @@ The goal is to develop a machine learning solution capable of identifying pumps 
 
 ---
 
-# Project Objectives
+## Project Objectives
 
 - Predict water pump operational status
 - Optimize maintenance prioritization
@@ -36,7 +165,7 @@ The goal is to develop a machine learning solution capable of identifying pumps 
 
 ---
 
-# Dataset Overview
+## Dataset Overview
 
 The dataset contains operational and administrative information for over 59,000 water pumps installed across Tanzania.
 
@@ -50,17 +179,17 @@ The dataset contains operational and administrative information for over 59,000 
 
 ---
 
-# Methodology
+## Methodology
 
 The project follows a CRISP-DM inspired workflow commonly used in enterprise Data Science environments.
 
-## 1. Business Understanding
+### 1. Business Understanding
 
 Definition of operational objectives, infrastructure challenges and predictive maintenance requirements.
 
 ---
 
-## 2. Exploratory Data Analysis (EDA)
+### 2. Exploratory Data Analysis (EDA)
 
 Main challenges identified during analysis:
 
@@ -83,111 +212,138 @@ Main challenges identified during analysis:
 - Sparse maintenance information
 
 <img width="2137" height="2898" alt="fig_cat_stacked" src="https://github.com/user-attachments/assets/5de7e8f6-0512-4a96-81b6-df4bd429dc6c" />
- 
 
 ---
 
-## 3. Data Preparation & Feature Engineering
+### 3. Data Preparation & Feature Engineering
 
 Several transformations were implemented to improve predictive performance and reduce data noise.
 
-### Feature Engineering Examples
+All imputation statistics (medians, target-encoding maps, cardinality vocabularies) are fit exclusively on the training set to prevent data leakage.
 
-| Feature | Business Purpose |
-|---|---|
-| `pump_age` | Infrastructure aging analysis |
-| `construction_decade` | Technological lifecycle segmentation |
-| `log_population` | Population normalization |
-| `region_fail_rate` | Regional failure risk estimation |
-| `qty_pay_combo` | Water availability vs payment behavior |
-| `has_scheme_mgmt` | Operational governance indicator |
+#### Feature Engineering
+
+| Feature | Type | Business Purpose |
+|---|---|---|
+| `pump_age` | Derived | Infrastructure aging analysis |
+| `construction_decade` | Derived | Technological lifecycle segmentation |
+| `log_population` | Transformed | Population normalization (skew reduction) |
+| `log_amount_tsh` | Transformed | Flow normalization (skew reduction) |
+| `region_fail_rate` | Target encoded | Regional failure risk estimation |
+| `qty_pay_combo` | Interaction | Water availability vs payment behaviour |
+| `has_scheme_mgmt` | Binary flag | Operational governance indicator |
+
+#### Cardinality Management
+
+High-cardinality variables (`funder`, `installer`, `lga`) are reduced to their Top-50 most frequent values; all others are mapped to `other` before encoding. Columns with extreme cardinality and low net gain (`wpt_name`, `subvillage`, `ward`, `scheme_name`) are dropped.
 
 ---
 
-## 4. Machine Learning Models
+### 4. Machine Learning Models
 
 Multiple machine learning approaches were evaluated and compared:
 
-- Random Forest
+- Random Forest (baseline and optimised)
 - Extra Trees
 - Gradient Boosting
 - HistGradientBoosting
-- Stacking Ensemble Models
+- Stacking Ensemble (RF + ET + GBT → LogisticRegression meta-learner)
 - Cost-sensitive learning strategies
+
+#### Minority Class Strategies
+
+Given the operational criticality of `functional needs repair` (only 7.3% of the dataset), four dedicated strategies were evaluated:
+
+| Strategy | Approach |
+|---|---|
+| Threshold tuning | Lower decision boundary for minority class |
+| Two-stage model | Binary split then specialised sub-classifier |
+| Cost-sensitive learning | Higher misclassification penalty for minority class |
+| Weighted voting ensemble | Combines all five submission files with class-specific weights |
 
 ---
 
-# Model Performance
+## Model Performance
 
-| Model | Validation Accuracy | Notes |
-|---|---|---|
-| Random Forest Baseline | 0.8076 | Initial benchmark |
-| Optimized Random Forest | 0.8102 | Feature engineering applied |
-| Stacking Ensemble | 0.8114 | Best validation accuracy |
-| Final Ensemble Solution | **0.8230** | Best leaderboard score |
-
+| Model | Accuracy | Macro-F1 | Recall (needs repair) | Notes |
+|---|---|---|---|---|
+| Random Forest Baseline | 0.8076 | — | 0.31 | Initial benchmark |
+| Optimised Random Forest | 0.8102 | — | 0.30 | Feature engineering applied |
+| AutoML (RandomizedSearchCV) | 0.8104 | — | 0.30 | Best sklearn config |
+| Stacking Ensemble | 0.8114 | — | 0.27 | Best validation accuracy |
+| **Final Ensemble Solution** | **0.8230** | — | — | **Best leaderboard score** |
 
 <img width="1661" height="580" alt="fig_threshold_tuning" src="https://github.com/user-attachments/assets/ec253f92-a748-4d85-992a-cef04149b2af" />
 
-
 ---
 
-# Key Business Insights
+## Key Business Insights
 
-## 🌍 Geographic Risk Patterns
+### 🌍 Geographic Risk Patterns
 
-Southern regions such as Lindi and Mtwara present significantly higher failure rates compared to northern areas.
+Southern regions such as Lindi and Mtwara present significantly higher failure rates compared to northern areas. This suggests strong correlations between infrastructure reliability, regional investment and operational accessibility.
 
-This suggests strong correlations between infrastructure reliability, regional investment and operational accessibility.
+### 🔧 Infrastructure Aging
 
----
+Older pumps show substantially higher failure probability, particularly installations older than 20 years. This enables predictive maintenance prioritization based on infrastructure lifecycle.
 
-## 🔧 Infrastructure Aging
+### 💧 Water Availability & Failure Correlation
 
-Older pumps show substantially higher failure probability, particularly installations older than 20 years.
+Pumps operating in low-water regions are considerably more likely to become non-functional. This may reflect both environmental stress and reduced maintenance incentives.
 
-This enables predictive maintenance prioritization based on infrastructure lifecycle.
+### 💰 Financial Sustainability Impact
 
----
+The absence of payment systems strongly correlates with infrastructure failure. Communities without maintenance funding mechanisms experience significantly higher operational degradation.
 
-## 💧 Water Availability & Failure Correlation
-
-Pumps operating in low-water regions are considerably more likely to become non-functional.
-
-This may reflect both environmental stress and reduced maintenance incentives.
-
----
-
-## 💰 Financial Sustainability Impact
-
-The absence of payment systems strongly correlates with infrastructure failure.
-
-Communities without maintenance funding mechanisms experience significantly higher operational degradation.
-
----
-
-## 🏢 Operational Management Quality
+### 🏢 Operational Management Quality
 
 Infrastructure managed by undefined or weak governance entities demonstrates worse operational performance than systems managed by formal organizations.
 
 ---
 
-# Technical Skills Demonstrated
+## Technical Skills Demonstrated
 
-- Machine Learning
-- Predictive Analytics
-- Feature Engineering
-- Data Cleaning
-- Exploratory Data Analysis
-- Ensemble Models
-- Classification Problems
-- Imbalanced Datasets
-- Business Intelligence Interpretation
-- Python Data Stack
+- Machine Learning & Predictive Analytics
+- Feature Engineering & Data Cleaning
+- Exploratory Data Analysis (EDA)
+- Ensemble Models & Stacking
+- Imbalanced Dataset Handling
+- Agentic AI Pipelines (LangGraph + Claude)
+- Interactive Demos (Gradio)
+- Classification & Business Intelligence Interpretation
+- Python Data Stack (pandas, numpy, sklearn, matplotlib, seaborn)
 
 ---
 
-# Strategic Conclusions
+## Setup & Reproducibility
+
+### Requirements
+
+```bash
+pip install -r requirements.txt
+```
+
+### Environment Variables
+
+This project requires an Anthropic API key for the agentic EDA and assistant features. Create a `.env` file in the project root:
+
+```
+ANTHROPIC_API_KEY=your_api_key_here
+```
+
+The key is loaded automatically by the notebook via `python-dotenv`. It is never stored in the code.
+
+### Running the Notebook
+
+1. Clone the repository
+2. Place the competition CSV files in `train_test_data/`
+3. Create your `.env` file with your API key
+4. Run `pip install -r requirements.txt`
+5. Open `pump_it_up.ipynb` and run all cells in order
+
+---
+
+## Strategic Conclusions
 
 The project demonstrates how machine learning can support predictive maintenance and operational optimization in large-scale infrastructure environments.
 
@@ -197,33 +353,19 @@ The results support a more proactive and data-driven approach to infrastructure 
 
 ---
 
-# Potential Business Improvements
+## Potential Business Improvements
 
-### Predictive Maintenance Prioritization
+**Predictive Maintenance Prioritization** — Use risk-based maintenance scheduling to reduce operational downtime and optimize intervention resources.
 
-Use risk-based maintenance scheduling to reduce operational downtime and optimize intervention resources.
+**Regional Infrastructure Planning** — Identify high-risk regions requiring additional operational investment and maintenance support.
 
----
+**Governance Optimization** — Strengthen maintenance ownership and local management structures to improve long-term infrastructure reliability.
 
-### Regional Infrastructure Planning
-
-Identify high-risk regions requiring additional operational investment and maintenance support.
+**Advanced Predictive Modeling** — Future iterations may incorporate geospatial clustering, gradient boosting frameworks and calibrated ensemble architectures for improved predictive performance.
 
 ---
 
-### Governance Optimization
-
-Strengthen maintenance ownership and local management structures to improve long-term infrastructure reliability.
-
----
-
-### Advanced Predictive Modeling
-
-Future iterations may incorporate geospatial clustering, gradient boosting frameworks and calibrated ensemble architectures for improved predictive performance.
-
----
-
-# Final Conclusion
+## Final Conclusion
 
 This project demonstrates the application of machine learning and predictive analytics to a real-world infrastructure maintenance problem.
 
