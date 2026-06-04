@@ -8,60 +8,60 @@
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                        DATA SOURCES                                     │
 │          DrivenData — Pump It Up: Data Mining the Water Table           │
-│     train_features.csv · train_labels.csv · test_features.csv          │
+│     train_features.csv · train_labels.csv · test_features.csv           │
 └────────────────────────────┬────────────────────────────────────────────┘
                              │
                              ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                  EXPLORATORY DATA ANALYSIS (EDA)                        │
 │                                                                         │
-│   ┌─────────────────┐   ┌──────────────────┐   ┌──────────────────┐   │
-│   │ Class imbalance │   │ Missing values   │   │ Geographic       │   │
-│   │ analysis        │   │ & zero-masking   │   │ distribution     │   │
-│   └─────────────────┘   └──────────────────┘   └──────────────────┘   │
-│   ┌─────────────────┐   ┌──────────────────┐                          │
-│   │ High-cardinality│   │ Categorical vs   │                          │
-│   │ variables       │   │ target patterns  │                          │
-│   └─────────────────┘   └──────────────────┘                          │
+│   ┌─────────────────┐   ┌──────────────────┐   ┌──────────────────┐     │
+│   │ Class imbalance │   │ Missing values   │   │ Geographic       │     │ 
+│   │ analysis        │   │ & zero-masking   │   │ distribution     │     │
+│   └─────────────────┘   └──────────────────┘   └──────────────────┘     │
+│   ┌─────────────────┐   ┌──────────────────┐                            │
+│   │ High-cardinality│   │ Categorical vs   │                            │
+│   │ variables       │   │ target patterns  │                            │
+│   └─────────────────┘   └──────────────────┘                            │
 │                                                                         │
-│   Automated report: Sweetviz HTML · Agentic EDA: LangGraph + Claude   │
+│   Automated report: Sweetviz HTML · Agentic EDA: LangGraph + Claude     │
 └────────────────────────────┬────────────────────────────────────────────┘
                              │
                              ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                     FEATURE ENGINEERING                                 │
 │                                                                         │
-│  pump_age · log_population · log_amount_tsh · region_fail_rate         │
-│  qty_pay_combo · has_scheme_mgmt · construction_decade                 │
-│  Top-50 cardinality reduction · Train-only imputation medians          │
+│  pump_age · log_population · log_amount_tsh · region_fail_rate          │
+│  qty_pay_combo · has_scheme_mgmt · construction_decade                  │
+│  Top-50 cardinality reduction · Train-only imputation medians           │
 └────────────────────────────┬────────────────────────────────────────────┘
                              │
                              ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                        MODELLING                                        │
 │                                                                         │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                 │
-│  │ Random       │  │ Extra Trees  │  │ Gradient     │                 │
-│  │ Forest       │  │              │  │ Boosting     │                 │
-│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘                 │
-│         └─────────────────┼─────────────────┘                         │
-│                           │ Stacking Ensemble                          │
-│                           ▼                                            │
-│              ┌────────────────────────┐                                │
-│              │  LogisticRegression    │                                │
-│              │  Meta-learner (OOF)    │                                │
-│              └────────────────────────┘                                │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                   │
+│  │ Random       │  │ Extra Trees  │  │ Gradient     │                   │
+│  │ Forest       │  │              │  │ Boosting     │                   │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘                   │
+│         └─────────────────┼─────────────────┘                           │
+│                           │ Stacking Ensemble                           │
+│                           ▼                                             │
+│              ┌────────────────────────┐                                 │
+│              │  LogisticRegression    │                                 │
+│              │  Meta-learner (OOF)    │                                 │
+│              └────────────────────────┘                                 │
 │                                                                         │
-│  Minority class strategies: threshold tuning · two-stage model        │
-│  cost-sensitive learning · weighted voting ensemble                    │
+│  Minority class strategies: threshold tuning · two-stage model          │
+│  cost-sensitive learning · weighted voting ensemble                     │
 └────────────────────────────┬────────────────────────────────────────────┘
                              │
                              ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                     EVALUATION & OUTPUT                                 │
 │                                                                         │
-│   Accuracy · Macro-F1 · Recall(functional needs repair)                │
-│   submission_*.csv  →  DrivenData leaderboard: 0.8230                 │
+│   Accuracy · Macro-F1 · Recall(functional needs repair)                 │
+│   submission_*.csv  →  DrivenData leaderboard: 0.8230                   │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
