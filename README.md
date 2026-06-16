@@ -8,10 +8,16 @@ A full predictive maintenance pipeline for ~59,000 water pumps in Tanzania (Driv
 
 | Demo | What it does |
 |---|---|
-| **Annex B — Data Explorer & Prediction** (Gradio, port 7860) | Interactive EDA explorer + individual pump prediction tool. Enter a pump's characteristics and get a live prediction. |
-| **Annex C — "Ask the Project" AI Assistant** (Gradio, port 7862) | Conversational assistant (Claude via Anthropic API) that answers questions about the dataset, the modeling decisions and the results — a natural-language interface to the whole analysis. |
+| **Annex B – Data Explorer & Prediction** (Gradio, port 7860) | Interactive EDA explorer + individual pump prediction tool. Enter a pump's characteristics and get a live prediction. |
+| **Annex C – "Ask the Project" AI Assistant** (Gradio, port 7862) | Conversational assistant (Claude via Anthropic API) that answers questions about the dataset, the modeling decisions and the results – a natural-language interface to the whole analysis. |
 
-![Annex B - Data Explorer and Prediction](./images/fig_summary.png)
+**Data Explorer & Prediction**
+
+![AnnexB](images/EDA&Predictor.png)
+
+**Ask the Project" AI Assistant**
+
+![AnnexC](images/LLM%20Assistant.png)
 
 ---
 
@@ -174,6 +180,8 @@ The objective is to predict the operational status of water pumps using technica
 
 The project simulates a real-world predictive maintenance scenario commonly found in enterprise environments, combining exploratory analysis, feature engineering, model optimization, business-oriented interpretation of results, and an AI-powered interactive layer for non-technical stakeholders to explore the findings.
 
+
+
 ---
 
 ## Business Problem
@@ -195,6 +203,8 @@ The dataset contains operational and administrative information for over 59,000 
 | Functional | Pump operates correctly |
 | Non Functional | Pump is completely out of service |
 | Functional Needs Repair | Pump works but requires maintenance |
+
+![Sumary](./images/fig_summary.png)
 
 ---
 
@@ -382,6 +392,7 @@ The key is loaded automatically by the notebook via `python-dotenv`. It is never
 Running the notebook's final cells launches two local Gradio apps:
 
 - **Annex B** — `http://127.0.0.1:7860` — EDA Explorer and individual pump prediction
+
 - **Annex C** — `http://127.0.0.1:7862` — "Ask the Project" conversational assistant (requires `ANTHROPIC_API_KEY`)
 
 ---
