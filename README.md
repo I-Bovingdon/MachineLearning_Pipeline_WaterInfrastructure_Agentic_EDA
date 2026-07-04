@@ -58,7 +58,7 @@ The project is structured as a three-stage pipeline. Each notebook is self-conta
 
 **"Ask the Project" AI Assistant**
 
-![AnnexC](05_images/LLM%20Assistant.png)
+![AnnexC](05_images/LLM_Assistant.png)
 
 ---
 
