@@ -32,7 +32,7 @@ Each node enriches the state with findings; Claude generates the conclusions. Th
 
 ### Annex B — Data Explorer & Individual Predictor (Gradio)
 
-![Annex B](images/EDA&Predictor.png)
+![Annex B](05_images/EDA&Predictor.png)
 
 Two tabs, no code required:
 - **EDA Explorer** — pick any categorical variable and instantly see the pump-status distribution
@@ -42,7 +42,7 @@ The predictor transforms the input with the **exact same `feature_pipeline.py`**
 
 ### Annex C — "Ask the Project" AI Assistant
 
-![Annex C](images/LLM%20Assistant.png)
+![Annex C](05_images/LLM%20Assistant.png)
 
 A conversational interface (Claude via the Anthropic API) grounded in the project's real context: dataset size, issues found, strategies tested, per-region failure rates and final metrics. Error messages are translated into plain language, and each turn is labelled **Request** / **Answer**.
 
@@ -51,10 +51,10 @@ A conversational interface (Claude via the Anthropic API) grounded in the projec
 ## Inputs (produced by notebooks 01 and 02)
 
 ```
-artifacts/feature_artifacts.pkl    # fitted pipeline parameters
-artifacts/X_eng.parquet            # column order + medians for input alignment
-artifacts/rf_final.joblib          # final trained model
-artifacts/model_config.json        # tuned decision threshold (BEST_THR)
+00_artifacts/feature_artifacts.pkl    # fitted pipeline parameters
+00_artifacts/X_eng.parquet            # column order + medians for input alignment
+00_artifacts/rf_final.joblib          # final trained model
+00_artifacts/model_config.json        # tuned decision threshold (BEST_THR)
 feature_pipeline.py                # transformation module (imported)
 ```
 

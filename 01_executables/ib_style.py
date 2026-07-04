@@ -645,28 +645,25 @@ def html_ai_assistant(project_title, project_subtitle, context_blurb,
 def get_gradio_theme():
     """
     Returns a dict of Gradio theme constructor kwargs that approximate the IB style.
+
+    Fonts are wrapped in gr.themes.GoogleFont objects — recent Gradio versions
+    compare theme fonts via Font.__eq__ on launch, which requires Font objects
+    (passing bare strings raises: 'str' object has no attribute 'name').
+
     Usage:
         import gradio as gr
         from ib_style import get_gradio_theme
         theme = gr.themes.Base(**get_gradio_theme())
         with gr.Blocks(theme=theme, css=get_gradio_css()) as demo: ...
     """
-    try:
-        import gradio as gr
-        return dict(
-            primary_hue="orange",
-            secondary_hue="blue",
-            neutral_hue="slate",
-            font=[gr.themes.GoogleFont("Inter"), "ui-sans-serif", "system-ui"],
-            font_mono=[gr.themes.GoogleFont("JetBrains Mono"), "ui-monospace"],
-        )
-    except ImportError:
-        # Fallback if gradio is not available (for testing)
-        return dict(
-            primary_hue="orange",
-            secondary_hue="blue",
-            neutral_hue="slate",
-        )
+    import gradio as gr
+    return dict(
+        primary_hue="orange",
+        secondary_hue="blue",
+        neutral_hue="slate",
+        font=[gr.themes.GoogleFont("Inter"), "ui-sans-serif", "system-ui"],
+        font_mono=[gr.themes.GoogleFont("JetBrains Mono"), "Fira Code", "ui-monospace"],
+    )
 
 def get_gradio_css():
     """Returns CSS string to inject into gr.Blocks for IB brand styling."""

@@ -4,7 +4,7 @@
 
 The complete modelling arc: from a raw-data baseline to the final weighted voting ensemble that scored **0.8230** on the DrivenData leaderboard — with a dedicated block of four strategies targeting the operationally critical `functional needs repair` class.
 
-**Prerequisite:** run `01_data_preparation.ipynb` first. This notebook reads the engineered matrices from `artifacts/` and never repeats EDA or feature engineering.
+**Prerequisite:** run `01_data_preparation.ipynb` first. This notebook reads the engineered matrices from `00_artifacts/` and never repeats EDA or feature engineering.
 
 ---
 
@@ -13,22 +13,22 @@ The complete modelling arc: from a raw-data baseline to the final weighted votin
 ### 2. Baseline on raw data
 A 100-tree Random Forest with only the minimum viable preprocessing (median imputation + LabelEncoder). It establishes the reference point — **0.8076 accuracy** — that quantifies the value of everything that follows.
 
-![Baseline confusion matrix](images/fig_cm_baseline.png)
+![Baseline confusion matrix](05_images/fig_cm_baseline.png)
 
 ### 3. Optimised model + interpretability
 The same architecture on the engineered features (500 trees, `class_weight='balanced_subsample'`), validated with stratified 5-fold CV, plus the interpretability block: feature importance ranking, cumulative importance curve, and low-importance variable audit.
 
-![Feature importance](images/fig_feature_importance_optimized.png)
+![Feature importance](05_images/fig_feature_importance_optimized.png)
 
-![Confusion matrix comparison](images/fig_cm_comparison.png)
+![Confusion matrix comparison](05_images/fig_cm_comparison.png)
 
 ### 4–5. Model search
 - **AutoML** (`RandomizedSearchCV` over Random Forest, Extra Trees and Gradient Boosting)
 - **Stacking Ensemble** — RF + ET + GBT base learners feeding a LogisticRegression meta-learner on out-of-fold probabilities (leakage-free via `cross_val_predict`)
 
-![AutoML comparison](images/fig_automl_comparison.png)
+![AutoML comparison](05_images/fig_automl_comparison.png)
 
-![Stacking comparison](images/fig_stacking_comparison.png)
+![Stacking comparison](05_images/fig_stacking_comparison.png)
 
 ### 6. Minority class strategies — the key engineering challenge
 
@@ -41,18 +41,18 @@ Standard models detect only **27–31%** of `functional needs repair` pumps. Fou
 | C — Cost-sensitive learning | Moderate | Minimal loss | Single model, penalty-weighted |
 | D — **Weighted voting ensemble** | 6.7% predicted (vs 7.3% real) | **0.8230** | **Final solution** |
 
-![Threshold tuning](images/fig_threshold_tuning.png)
+![Threshold tuning](05_images/fig_threshold_tuning.png)
 
-![Repair recall comparison](images/fig_repair_recall_comparison.png)
+![Repair recall comparison](05_images/fig_repair_recall_comparison.png)
 
-![Ensemble voting](images/fig_ensemble_votacion.png)
+![Ensemble voting](05_images/fig_ensemble_votacion.png)
 
 ### 7–9. Final model, submissions and summary
 The final Random Forest is retrained on 100% of the training data, all `submission_*.csv` files are generated, and the unified metric table (accuracy · macro-F1 · repair-recall) closes the analysis.
 
-![Model comparison](images/fig_model_comparison.png)
+![Model comparison](05_images/fig_model_comparison.png)
 
-![Process summary](images/fig_summary.png)
+![Process summary](05_images/fig_summary.png)
 
 ---
 
@@ -76,7 +76,7 @@ submission_threshold.csv            # strategy A
 submission_dos_etapas.csv           # strategy B
 submission_cost_sensitive.csv       # strategy C
 submission_ensemble_votacion.csv    # strategy D — final (0.8230)
-artifacts/
+00_artifacts/
 ├── rf_final.joblib                 # final model            → 03
 └── model_config.json               # tuned BEST_THR          → 03
 ```
@@ -87,7 +87,7 @@ artifacts/
 pip install pandas numpy matplotlib seaborn scikit-learn pyarrow joblib
 ```
 
-1. Run `01_data_preparation.ipynb` first (produces `artifacts/`)
+1. Run `01_data_preparation.ipynb` first (produces `00_artifacts/`)
 2. `Kernel → Restart & Run All`
 
 > ⏱ The AutoML search (section 4) and stacking CV (section 5) are the heaviest cells: expect 15–40 minutes total depending on CPU cores. All estimators use `n_jobs=-1`.
